@@ -19,8 +19,7 @@ class Settings
             ->set_page_menu_position(99999)
             ->set_icon(API_END_URL . 'assets/images/settings.svg')
             ->add_tab(__('Core Settings'), $this->get_core_settings())
-            ->add_tab(__('Rates & Data'), $this->get_rates_data_settings())
-            ->add_tab(__('Marketing'), $this->get_marketing_settings());
+            ->add_tab(__('Rates & Data'), $this->get_rates_data_settings());
     }
 
     private function get_core_settings()
@@ -85,31 +84,6 @@ class Settings
             Field::make('separator', 'crb_sep_notifications', __('Notifications')),
             Field::make('text', 'notification_emails', __('Notification Email Addresses'))
                 ->set_help_text('Enter email addresses separated by commas to receive notifications')
-                ->set_width(100),
-        );
-    }
-
-    private function get_marketing_settings()
-    {
-        return array(
-            Field::make('html', 'crb_marketing_header')
-                ->set_html('<div class="zpc-header"><h2 class="zpc-title">Marketing & Social</h2><p class="zpc-subtitle">Manage WhatsApp integration and banners.</p></div>'),
-
-            Field::make('separator', 'crb_sep_whatsapp', __('WhatsApp Integration')),
-            Field::make('text', 'whatsapp_channel_url', __('WhatsApp Channel URL'))
-                ->set_default_value('https://whatsapp.com/channel/0029Va7TvgnFSAtC7qL6Vi3x')
-                ->set_help_text('Enter the URL for your WhatsApp channel')
-                ->set_width(100),
-
-            Field::make('separator', 'crb_sep_banner', __('Banner Configuration')),
-            Field::make('text', 'whatsapp_banner_title', __('Banner Title'))
-                ->set_default_value('Stay Ahead of the Game!')
-                ->set_width(100),
-            Field::make('textarea', 'whatsapp_banner_text', __('Banner Text'))
-                ->set_default_value('Get exclusive updates on prices, deals, and rates directly to your WhatsApp! Don\'t miss out on the best offers from Zimpricecheck.com.')
-                ->set_width(100),
-            Field::make('text', 'whatsapp_banner_button_text', __('Button Text'))
-                ->set_default_value('Join Now!')
                 ->set_width(100),
         );
     }
