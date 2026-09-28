@@ -230,10 +230,11 @@ add_shortcode('telecel-bundles', 'telecel_data_bundles');
 
 //Transport and ZINARA
 
-require_once plugin_dir_path(__FILE__) . 'includes/transport/class-tollgates.php';
-new ZP_Tollgates();
-require_once plugin_dir_path(__FILE__) . 'includes/transport/class-zinara-license.php';
-new ZP_Zinara_License();
+// [tollgates]/[tollgates_prem] (toll gate fees) and [zinara] (vehicle licence fees,
+// via the [transport type=...] dispatcher below) MIGRATED to zimpricecheck-tools/prices/
+// as [tollgates type="standard|premium"] and [zinara-license] (September 2026) — the
+// dispatcher in class-transport.php now calls those directly via do_shortcode().
+// Old code archived to wp-content/_deprecated/transport-2026-09-09/ and removed from here.
 require_once plugin_dir_path(__FILE__) . 'includes/transport/class-zupco.php';
 new ZP_Zupco();
 require_once plugin_dir_path(__FILE__) . 'includes/transport/class-bus-fares.php';

@@ -54,41 +54,20 @@ class ZP_Transport
                 break;
 
             case 'tollgates':
-                if (class_exists('ZP_Tollgates')) {
-                    $tollgates = new ZP_Tollgates();
-                    // Pass type='standard' explicitly or let it default
-                    return $tollgates->render_shortcode(['type' => 'standard']);
-                }
-                break;
+                // Migrated to zimpricecheck-tools (v2 API), September 2026 — see
+                // ZPC_Prices::render_tollgates() / ZPC_Tollgate_Source. The dispatcher
+                // stays here (still backs the unrelated zupco/busfares types below) but
+                // delegates this case to the new shortcode rather than the old class.
+                return do_shortcode('[tollgates type="standard"]');
 
             case 'tollgates_prem':
-                if (class_exists('ZP_Tollgates')) {
-                    $tollgates = new ZP_Tollgates();
-                    return $tollgates->render_shortcode(['type' => 'premium']);
-                }
-                break;
+                return do_shortcode('[tollgates type="premium"]');
 
             case 'zinara':
-                if (class_exists('ZP_Zinara_License')) {
-                    $zinara = new ZP_Zinara_License();
-                    // Legacy 'zinara' type usually implied fees. 
-                    // The old code checked for 'wanted' param inside the function but the shortcode attr was just 'type'.
-                    // Wait, the old code had:
-                    // if ($wanted === "zinara_usd") ... else ...
-                    // But $wanted was initialized to "" and then checked against itself? 
-                    // Line 39: $wanted = "";
-                    // Line 40: if ($wanted === "zinara_usd") ...
-                    // This means it ALWAYS defaulted to zig_fees in the old code unless I missed something.
-                    // Let's look at the old code again.
-                    // 39: $wanted = "";
-                    // 40: if ($wanted === "zinara_usd") {
-                    // It seems the old code had a bug or I missed where $wanted came from. 
-                    // Ah, it might have been a variable that was supposed to be passed but wasn't.
-                    // In any case, let's default to 'zig' which matches the 'else' block of the old code.
-                    return $zinara->render_shortcode(['currency' => 'zig']);
-                }
-                break;
-                
+                // Migrated to zimpricecheck-tools (v2 API), September 2026 — see
+                // ZPC_Prices::render_zinara_licence() / ZPC_Zinara_Licence_Source.
+                return do_shortcode('[zinara-license]');
+
             default:
                 // Fallback or error
                 return '<p>Invalid transport type specified.</p>';
