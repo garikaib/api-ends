@@ -6,6 +6,14 @@ require_once plugin_dir_path(__DIR__) . "includes/dates.php";
 // Define the list of auto tracked pages
 function get_auto_tracked_pages()
 {
+    // Memoized: this runs once per post via the `the_title` filter, so without
+    // caching a feed/archive loop of N posts fires N identical Carbon Fields
+    // queries for the same theme option.
+    static $ids = null;
+    if ($ids !== null) {
+        return $ids;
+    }
+
     $ids = [];
     $rows = carbon_get_theme_option('short_date_posts');
     if ($rows) {
@@ -13,7 +21,7 @@ function get_auto_tracked_pages()
             // Prioritize Association if set
             if (!empty($row['post']) && count($row['post']) > 0) {
                 $ids[] = $row['post'][0]['id'];
-            } 
+            }
             // Fallback to manual_id
             elseif (!empty($row['manual_id'])) {
                 $ids[] = $row['manual_id'];
@@ -25,12 +33,15 @@ function get_auto_tracked_pages()
 
 function get_inflation_config($post_id)
 {
-    $config = carbon_get_theme_option('inflation_date_posts');
-    if ($config) {
-        foreach ($config as $item) {
-            if (!empty($item['post']) && $item['post'][0]['id'] == $post_id) {
-                return $item;
-            }
+    // Memoized for the same reason as get_auto_tracked_pages() above.
+    static $config = null;
+    if ($config === null) {
+        $config = carbon_get_theme_option('inflation_date_posts') ?: [];
+    }
+
+    foreach ($config as $item) {
+        if (!empty($item['post']) && $item['post'][0]['id'] == $post_id) {
+            return $item;
         }
     }
     return null;
