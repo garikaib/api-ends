@@ -301,7 +301,9 @@ require plugin_dir_path(__FILE__) . 'includes/append-date.php';
 
 //To declutter we have moved shortcodes to their associated template files.
 
-require plugin_dir_path(__FILE__) . 'templates/cvr-licence-fees.php';
+// [cvr-fees] (CVR service and registration fees) MIGRATED to zimpricecheck-tools/prices/
+// (September 2026) — same tag, now backed by the v2 /v2/prices/govt/cvr endpoint.
+// Old code archived to wp-content/_deprecated/cvr-fees-2026-09-09/ and removed from here.
 require plugin_dir_path(__FILE__) . 'shortcodes/past-rates-banner.php';
 require plugin_dir_path(__FILE__) . 'after-content/whatsapp-channel.php';
 // Ad rendering is now owned entirely by the Zimpricecheck Tools ad manager (see plugins/zimpricecheck-tools/ads/).
